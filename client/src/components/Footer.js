@@ -26,12 +26,13 @@ const Wrapper = styled.footer`
   color: #a9a9a9;
   a {
     font-weight: 700;
-    text-decoration: none;
     text-decoration: underline;
     color: inherit;
   }
   @media screen and (max-width: 450px) {
     left: 5px;
+    position: initial;
+    bottom: 0;
   }
 `;
 export default Footer;

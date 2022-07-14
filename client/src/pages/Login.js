@@ -1,24 +1,36 @@
-import { Card, Footer } from '../components';
-import styled from 'styled-components';
+import { Card } from '../components';
+import styled, { ThemeProvider } from 'styled-components';
+import { useAppContext } from '../context/appContext';
 
-const initialState = {
-  email: '',
-  password: '',
-  isMember: true,
+const darkTheme = {
+  main: '#252329',
 };
 
 const Login = () => {
+  const { theme } = useAppContext();
+  if (theme !== 'light') {
+    document.body.style.backgroundColor = darkTheme.main;
+  } else {
+    document.body.style.backgroundColor = '#fff';
+  }
+
   return (
-    <Wrapper className='page page-center'>
-      <Card initialState={initialState} />
-    </Wrapper>
+    <ThemeProvider theme={theme === 'dark' ? darkTheme : {}}>
+      <Wrapper className='page page-center'>
+        <Card />
+      </Wrapper>
+    </ThemeProvider>
   );
 };
 
 const Wrapper = styled.main`
+  min-width: ${(props) => (props.theme === darkTheme ? '100vw' : 'auto')};
+  background: ${(props) => props.theme.main};
   @media screen and (max-width: 450px) {
     padding: 0;
   }
+  min-height: 43rem;
+  height: 100vh;
 `;
 
 export default Login;

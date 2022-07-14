@@ -76,6 +76,7 @@ body {
   font-weight: 400;
   line-height: 1.75;
   color: var(--textColor);
+  overflow-x: hidden;
 }
 
 p {
@@ -215,8 +216,7 @@ ul {
   padding: 2rem 2.5rem;
   transition: var(--transition);
 }
-.form:hover {
-}
+
 .form-label {
   display: block;
   font-size: var(--smallText);
@@ -232,6 +232,8 @@ ul {
   border-radius: var(--borderRadius);
   background: var(--backgroundColor);
   border: 1px solid #BDBDBD ;
+  background: transparent;
+  color: #828282;
 }
 
 
@@ -240,6 +242,7 @@ ul {
 .form-select,
 .btn-block {
   height: 35px;
+
 }
 .form-row {
   margin-bottom: 1rem;
@@ -306,7 +309,6 @@ ul {
   width: var(--fluid-width);
   max-width: var(--max-width);
   margin: 0 auto;
-  padding-top: 3rem;
 }
 .page-center {
   min-height: 100vh;

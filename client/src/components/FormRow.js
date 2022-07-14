@@ -24,4 +24,5 @@ const FormRow = ({ type, name, value, onChange }) => {
     </div>
   );
 };
+
 export default FormRow;
