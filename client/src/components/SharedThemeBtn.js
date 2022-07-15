@@ -4,13 +4,17 @@ import { BsFillSunFill } from 'react-icons/bs';
 import { useAppContext } from '../context/appContext';
 
 const SharedThemeBtn = () => {
-  const { toggleTheme } = useAppContext();
+  const { toggleTheme, theme } = useAppContext();
+
+  const darkThemeIsActive = theme === 'dark';
+
   return (
     <Wrapper>
       <input
         type='checkbox'
         id='switch'
         className='checkbox'
+        checked={!darkThemeIsActive}
         onChange={toggleTheme}
       />
       <label htmlFor='switch' className='toggle'>

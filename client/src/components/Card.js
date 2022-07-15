@@ -2,25 +2,66 @@ import styled, { ThemeProvider } from 'styled-components';
 import { useAppContext } from '../context/appContext';
 import devchallengesLight from '../assets/devchallenges-light.svg';
 import devchallenges from '../assets/devchallenges.svg';
-import google from '../assets/Google.svg';
-import facebook from '../assets/Facebook.svg';
-import gitHub from '../assets/Gihub.svg';
-import twitter from '../assets/Twitter.svg';
+import { loginLinks } from '../utils/login-links';
 import FormRow from './FormRow';
 import Footer from './Footer';
 import SharedThemeBtn from './SharedThemeBtn';
+import Alert from './Alert';
 
 const darkTheme = {
   main: '#252329',
   color: '#E0E0E0',
 };
 
+const currentUser = {
+  email: '',
+  password: '',
+};
+
 const Card = () => {
-  const { theme, isMember, toggleIsMember } = useAppContext();
+  const {
+    theme,
+    isMember,
+    toggleIsMember,
+    showAlert,
+    displayAlert,
+    setupUser,
+  } = useAppContext();
+
+  const handleChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    currentUser[name] = value;
+    console.log(currentUser);
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const { email, password } = currentUser;
+
+    if (!email || !password) {
+      displayAlert();
+      return;
+    }
+
+    if (isMember) {
+      setupUser({
+        currentUser,
+        endPoint: 'login',
+        alertText: 'Login Successful! Redirecting...',
+      });
+    } else {
+      setupUser({
+        currentUser,
+        endPoint: 'Register',
+        alertText: 'Register Successful! Redirecting...',
+      });
+    }
+  };
 
   return (
     <ThemeProvider theme={theme === 'dark' ? darkTheme : {}}>
-      <Wrapper className='form'>
+      <Wrapper className='form' onSubmit={onSubmit}>
         <SharedThemeBtn />
         <img
           src={theme === 'dark' ? devchallengesLight : devchallenges}
@@ -38,15 +79,20 @@ const Card = () => {
             </p>
           </>
         )}
-        <FormRow type='email' name='email'></FormRow>
-        <FormRow type='password' name='password'></FormRow>
+        {showAlert && <Alert />}
+        <FormRow type='email' name='email' onChange={handleChange}></FormRow>
+        <FormRow
+          type='password'
+          name='password'
+          onChange={handleChange}
+        ></FormRow>
         <button className='btn btn-block'>Start coding now</button>
         <p className='text-center'>or continue with these social profile</p>
         <div className='container'>
-          <img src={google} alt='google' className='img' />
-          <img src={facebook} alt='facebook' className='img' />
-          <img src={gitHub} alt='gitHub' className='img' />
-          <img src={twitter} alt='twitter' className='img' />
+          {loginLinks.map((link) => {
+            const { id, src, alt } = link;
+            return <img src={src} alt={alt} key={id} className='img' />;
+          })}
         </div>
         {isMember ? (
           <p className='text-center'>
@@ -69,12 +115,11 @@ const Card = () => {
   );
 };
 
-const Wrapper = styled.section`
+const Wrapper = styled.form`
   background: ${(props) => props.theme.main};
   position: relative;
-  padding: 60px;
+  padding: 53px 58px 18px;
   max-width: var(--fixed-width);
-  max-height: 635px;
   min-height: 550px;
   border: 1px solid #bdbdbd;
   border-radius: 24px;

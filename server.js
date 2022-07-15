@@ -11,12 +11,22 @@ import morgan from 'morgan';
 import connectDB from './db/connectDB.js';
 
 // routers
+import authRouter from './routes/authRoutes.js';
 
 // middleware
+import errorHandler from './middleware/error-handler.js';
+import notFound from './middleware/not-found.js';
 
 if (process.NODE_ENV !== 'production') {
   app.use(morgan('dev'));
 }
+
+app.use(express.json());
+
+app.use('/api/v1/auth', authRouter);
+
+app.use(notFound);
+app.use(errorHandler);
 
 const port = process.env.PORT || 5000;
 
